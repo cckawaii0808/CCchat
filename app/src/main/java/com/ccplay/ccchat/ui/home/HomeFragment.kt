@@ -2,21 +2,35 @@ package com.ccplay.ccchat.ui.home
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.os.Message
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.ccplay.ccchat.R
 import com.ccplay.ccchat.databinding.FragmentHomeBinding
+import com.ccplay.ccchat.databinding.RowChatroomBinding
 import com.google.gson.Gson
+import com.tom.atm.ChatRooms
+import com.tom.atm.Lightyear
 import okhttp3.*
 import okio.ByteString
+import java.net.URL
 import java.util.concurrent.TimeUnit
+import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
+    private lateinit var adapter: ChatRoomAdapter
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+    val rooms = mutableListOf<Lightyear>()
     lateinit var websocket: WebSocket//使用插件
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,9 +43,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-      /*  binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        }*/
+        /*  binding.buttonSecond.setOnClickListener {
+              findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
+          }*/
         //Web socket
         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
@@ -68,13 +82,70 @@ class HomeFragment : Fragment() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
                 super.onOpen(webSocket, response)
                 Log.d(TAG, ": onOpen");
-//                webSocket.send("Hello, I am Hank")
             }
         })
-       /* binding.bSend.setOnClickListener {
-            val message = binding.edMessage.text.toString()
-            websocket.send(Gson().toJson(Message("N", message)))
-        }*/
+        binding.recycler.setHasFixedSize(true)
+        binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+        adapter = ChatRoomAdapter()
+        binding.recycler.adapter = adapter
+        thread {
+            val json = URL("https://api.jsonserve.com/hQAtNk").readText()
+            val msg = Gson().fromJson(json, Message::class.java)
+            //Log.d(TAG, "msg : ${msg.body.text}");
+        }
+        //test chatroom list
+        thread {
+            val json = URL("https://api.jsonserve.com/qHsaqy").readText()
+            val chatRooms = Gson().fromJson(json, ChatRooms::class.java)
+            Log.d(TAG, "rooms: ${chatRooms.result.lightyear_list.size}");
+            //fill list with new coming data
+            rooms.clear()
+            rooms.addAll(chatRooms.result.lightyear_list)
+            //List<LightYear>
+            activity?.runOnUiThread {
+                adapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
+        //繼承
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomViewHolder {
+            val view = layoutInflater.inflate(
+                R.layout.row_chatroom, parent, false)
+            return ChatRoomViewHolder(view)
+            //  val binding = RowChatroomBinding.inflate(layoutInflater, parent, false)
+//            return BindingViewHolder(binding)  //a
+        }//return一個View
+
+      /*  override fun getItemCount(): Int {//取得房間數量
+            return rooms.size
+        }
+
+        override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
+            val lightYear = rooms[position]
+            holder.host.setText(lightYear.stream_title)
+            holder.title.setText(lightYear.nickname)
+//            SecondFragment.this
+            *//*Glide.with(this@SecondFragment).load(lightYear.head_photo)
+                .into(holder.binding.headShot)*//*
+            holder.itemView.setOnClickListener {
+                chatRoomClicked(lightYear)
+        }
+    }
+
+        private fun chatRoomClicked(lightYear: Lightyear) {
+
+        }
+
+        }
+
+        inner class BindingViewHolder(val binding: RowChatroomBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        val host = binding.tvChatroomHostTitle
+        val title = binding.tvChatroomTitle
+        val headshot = binding.headShot
+
     }
 
     override fun onDestroyView() {
@@ -82,6 +153,41 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 }
+*/
 
-data class Message(val action:String, val content: String)
 
+        override fun onBindViewHolder(holder: ChatRoomViewHolder, position: Int) {
+            val lightYear = rooms[position]
+            holder.host.setText(lightYear.stream_title)
+            holder.title.setText(lightYear.nickname)
+//            SecondFragment.this
+            Glide.with(this@HomeFragment).load(lightYear.head_photo)
+                .into(holder.headShot)
+            holder.itemView.setOnClickListener {
+                chatRoomClicked(lightYear)
+            }
+        }//在這裡取得元件的控制(每個item內的控制)
+
+        override fun getItemCount(): Int {
+            return rooms.size
+        }//return一個int，通常都會return陣列長度(arrayList.size)
+    }
+
+    inner class ChatRoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val host = view.findViewById<TextView>(R.id.tv_chatroom_host_title)
+        val title = view.findViewById<TextView>(R.id.tv_chatroom_title)
+        val headShot = view.findViewById<ImageView>(R.id.head_shot)
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    //SecondFragment
+    fun chatRoomClicked(lightyear: Lightyear) {
+
+    }
+
+}
