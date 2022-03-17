@@ -101,6 +101,8 @@ val request = Request.Builder()
             activity?.runOnUiThread {
                 adapter.notifyDataSetChanged()
             }
+
+
         }
     }
 
