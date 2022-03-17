@@ -108,17 +108,18 @@ class HomeFragment : Fragment() {
         }
     }
 
-    inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
+    inner class ChatRoomAdapter : RecyclerView.Adapter<BindingViewHolder>() {
         //繼承
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomViewHolder {
-            val view = layoutInflater.inflate(
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
+            /* val view = layoutInflater.inflate(
                 R.layout.row_chatroom, parent, false)
-            return ChatRoomViewHolder(view)
-            //  val binding = RowChatroomBinding.inflate(layoutInflater, parent, false)
-//            return BindingViewHolder(binding)  //a
-        }//return一個View
+            return ChatRoomViewHolder(view)*/
+            val binding = RowChatroomBinding.inflate(layoutInflater, parent, false)
 
-      /*  override fun getItemCount(): Int {//取得房間數量
+            return BindingViewHolder(binding)
+        }
+
+        override fun getItemCount(): Int {//取得房間數量
             return rooms.size
         }
 
@@ -126,21 +127,20 @@ class HomeFragment : Fragment() {
             val lightYear = rooms[position]
             holder.host.setText(lightYear.stream_title)
             holder.title.setText(lightYear.nickname)
+        }
+    }
 //            SecondFragment.this
-            *//*Glide.with(this@SecondFragment).load(lightYear.head_photo)
-                .into(holder.binding.headShot)*//*
+    /*Glide.with(this@SecondFragment).load(lightYear.head_photo)  .into(holder.binding.headShot)
+
             holder.itemView.setOnClickListener {
                 chatRoomClicked(lightYear)
         }
     }
-
         private fun chatRoomClicked(lightYear: Lightyear) {
-
         }
+        }*/
 
-        }
-
-        inner class BindingViewHolder(val binding: RowChatroomBinding) :
+    inner class BindingViewHolder(val binding: RowChatroomBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val host = binding.tvChatroomHostTitle
         val title = binding.tvChatroomTitle
@@ -151,43 +151,6 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-}
-*/
-
-
-        override fun onBindViewHolder(holder: ChatRoomViewHolder, position: Int) {
-            val lightYear = rooms[position]
-            holder.host.setText(lightYear.stream_title)
-            holder.title.setText(lightYear.nickname)
-//            SecondFragment.this
-            Glide.with(this@HomeFragment).load(lightYear.head_photo)
-                .into(holder.headShot)
-            holder.itemView.setOnClickListener {
-                chatRoomClicked(lightYear)
-            }
-        }//在這裡取得元件的控制(每個item內的控制)
-
-        override fun getItemCount(): Int {
-            return rooms.size
-        }//return一個int，通常都會return陣列長度(arrayList.size)
-    }
-
-    inner class ChatRoomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val host = view.findViewById<TextView>(R.id.tv_chatroom_host_title)
-        val title = view.findViewById<TextView>(R.id.tv_chatroom_title)
-        val headShot = view.findViewById<ImageView>(R.id.head_shot)
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    //SecondFragment
-    fun chatRoomClicked(lightyear: Lightyear) {
-
     }
 
 }
