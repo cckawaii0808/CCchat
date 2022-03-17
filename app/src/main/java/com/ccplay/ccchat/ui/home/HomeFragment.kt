@@ -7,7 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -24,7 +26,6 @@ import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
     private lateinit var adapter: ChatRoomAdapter
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     val rooms = mutableListOf<Lightyear>()
@@ -34,6 +35,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        val HomeViewModel=
+            ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -43,54 +46,50 @@ class HomeFragment : Fragment() {
         /*  binding.buttonSecond.setOnClickListener {
               findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
           }*/
-        //Web socket
-        val client = OkHttpClient.Builder()
-            .readTimeout(3, TimeUnit.SECONDS)
-            .build()
-        val request = Request.Builder()
-            .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=cc")
-            .build()
-        websocket = client.newWebSocket(request, object : WebSocketListener() {
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-                Log.d(TAG, ": onClosed");
-            }
+/*//Web socket
+val client = OkHttpClient.Builder()
+    .readTimeout(3, TimeUnit.SECONDS)
+    .build()
+val request = Request.Builder()
+    .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=cc")
+    .build()
+  websocket = client.newWebSocket(request, object : bSocketListener() {
+    override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+        super.onClosed(webSocket, code, reason)
+        Log.d(TAG, ": onClosed");
+    }
 
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-                Log.d(TAG, ": onClosing");
-            }
+    override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+        super.onClosing(webSocket, code, reason)
+        Log.d(TAG, ": onClosing");
+    }
 
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-                Log.d(TAG, ": onFailure");
-            }
+    override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+        super.onFailure(webSocket, t, response)
+        Log.d(TAG, ": onFailure");
+    }
 
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                Log.d(TAG, ": onMessage $text");
-            }
+    override fun onMessage(webSocket: WebSocket, text: String) {
+        super.onMessage(webSocket, text)
+        Log.d(TAG, ": onMessage $text");
+    }
 
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                super.onMessage(webSocket, bytes)
-                Log.d(TAG, ": onMessage ${bytes.hex()}");
-            }
+    override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
+        super.onMessage(webSocket, bytes)
+        Log.d(TAG, ": onMessage ${bytes.hex()}");
+    }
 
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-                Log.d(TAG, ": onOpen");
-            }
-        })
+    override fun onOpen(webSocket: WebSocket, response: Response) {
+        super.onOpen(webSocket, response)
+        Log.d(TAG, ": onOpen");
+    }
+})*/
         binding.recycler.setHasFixedSize(true)
         binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         adapter = ChatRoomAdapter()
         binding.recycler.adapter = adapter
-      /*  thread {
-            val json = URL("https://api.jsonserve.com/hQAtNk").readText()
-            val msg = Gson().fromJson(json, Message::class.java)
-            //  Log.d(TAG, "msg : ${msg.body.text}");
-        }*/
-        //test chatroom list
+
+
         thread {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
             val chatRooms = Gson().fromJson(json, ChatRooms::class.java)
@@ -120,26 +119,21 @@ class HomeFragment : Fragment() {
             val lightYear = rooms[position]
             holder.host.setText(lightYear.stream_title)
             holder.title.setText(lightYear.nickname)
-            Glide.with(this@HomeFragment).load(lightYear.head_photo) .into(holder.binding.headShot)
-            //holder.headshot.setT(lightYear.background_image)
+            Glide.with(this@HomeFragment).load(lightYear.head_photo).into(holder.binding.headShot)
         }
     }
-//            SecondFragment.this
-    /*Glide.with(this@SecondFragment).load(lightYear.head_photo)  .into(holder.binding.headShot)
-
-            holder.itemView.setOnClickListener {
-                chatRoomClicked(lightYear)
-        }
-    }
-        private fun chatRoomClicked(lightYear: Lightyear) {
-        }
-        }*/
+    /*   holder.itemView.setOnClickListener {
+           chatRoomClicked(lightYear)
+   }
+   private fun chatRoomClicked(lightYear: Lightyear) {
+   }
+   */
 
     inner class BindingViewHolder(val binding: RowChatroomBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val host = binding.tvChatroomHostTitle
         val title = binding.tvChatroomTitle
-       val headshot = binding.headShot
+        val headshot = binding.headShot
 
     }
 
