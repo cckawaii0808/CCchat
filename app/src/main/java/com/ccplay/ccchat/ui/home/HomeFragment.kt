@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,18 +26,19 @@ import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
+    val viewModel by viewModels<HomeViewModel>()//繼承
     private lateinit var adapter: ChatRoomAdapter
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    val rooms = mutableListOf<Lightyear>()
+    val chatRooms = mutableListOf<Lightyear>()
     lateinit var websocket: WebSocket//使用插件
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val HomeViewModel=
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        /*val HomeViewModel=
+            ViewModelProvider(this).get(HomeViewModel::class.java)*/
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -88,22 +90,10 @@ val request = Request.Builder()
         binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         adapter = ChatRoomAdapter()
         binding.recycler.adapter = adapter
-
-
-        thread {
-            val json = URL("https://api.jsonserve.com/qHsaqy").readText()
-            val chatRooms = Gson().fromJson(json, ChatRooms::class.java)
-            Log.d(TAG, "rooms: ${chatRooms.result.lightyear_list.size}");
-            //fill list with new coming data
-            rooms.clear()
-            rooms.addAll(chatRooms.result.lightyear_list)
-            //List<LightYear>
-            activity?.runOnUiThread {
-                adapter.notifyDataSetChanged()
-            }
-
-
+        viewModel.chatRooms.observe(viewLifecycleOwner) { rooms ->
+            adapter.submitRooms(rooms)
         }
+        viewModel.getAllRooms()
     }
 
     inner class ChatRoomAdapter : RecyclerView.Adapter<BindingViewHolder>() {
@@ -114,14 +104,20 @@ val request = Request.Builder()
         }
 
         override fun getItemCount(): Int {//取得房間數量
-            return rooms.size
+            return chatRooms.size
         }
 
         override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
-            val lightYear = rooms[position]
+            val lightYear = chatRooms[position]
             holder.host.setText(lightYear.stream_title)
             holder.title.setText(lightYear.nickname)
             Glide.with(this@HomeFragment).load(lightYear.head_photo).into(holder.binding.headShot)
+        }
+
+        fun submitRooms(rooms: List<Lightyear>) {
+            chatRooms.clear()
+            chatRooms.addAll(rooms)
+            notifyDataSetChanged()
         }
     }
     /*   holder.itemView.setOnClickListener {
@@ -136,9 +132,7 @@ val request = Request.Builder()
         val host = binding.tvChatroomHostTitle
         val title = binding.tvChatroomTitle
         val headshot = binding.headShot
-
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
