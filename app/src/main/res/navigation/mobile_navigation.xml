@@ -21,5 +21,18 @@
         android:id="@+id/navigation_notifications"
         android:name="com.ccplay.ccchat.ui.Profife.ProfileFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_notifications_to_signup_Fragment"
+            app:destination="@id/signup_Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signup_Fragment"
+        android:name="com.ccplay.ccchat.ui.Profife.Signup_Fragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signup_Fragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>

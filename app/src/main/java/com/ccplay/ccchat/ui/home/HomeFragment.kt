@@ -1,29 +1,18 @@
 package com.ccplay.ccchat.ui.home
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.os.Message
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ccplay.ccchat.databinding.FragmentHomeBinding
 import com.ccplay.ccchat.databinding.RowChatroomBinding
-import com.google.gson.Gson
-import com.tom.atm.ChatRooms
 import com.tom.atm.Lightyear
 import okhttp3.*
-import okio.ByteString
-import java.net.URL
-import java.util.concurrent.TimeUnit
-import kotlin.concurrent.thread
 
 class HomeFragment : Fragment() {
     val viewModel by viewModels<HomeViewModel>()//繼承
