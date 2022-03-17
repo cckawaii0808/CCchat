@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,15 +29,12 @@ class ProfileFragment : Fragment() {
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Text changed
-
-
         val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
         val checked = pref.getBoolean("rem_username", false)
         binding.ckRemember.isChecked = checked
@@ -59,7 +55,7 @@ class ProfileFragment : Fragment() {
             val password = binding.tvLoginPass.text.toString()
             if (username == "cc" && password == "1234") {
                 //save username to preferences
-                //val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
+                //   val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
                 if (remember) {
                     pref.edit()
                         .putString("USER", username)
@@ -75,9 +71,7 @@ class ProfileFragment : Fragment() {
                     .setPositiveButton("OK", null)
                     .show()
             }
-
         }
-
         binding.bRegis.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_notifications_to_signup_Fragment)
             Log.d(TAG, "點擊註冊")
@@ -90,27 +84,3 @@ class ProfileFragment : Fragment() {
     }
 }
 
-/*
-    private fun login() {
-        val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
-        val checked = pref.getBoolean("rem_username", false)
-        binding.bLogin.setOnClickListener {
-            val username = binding.tvLoginName.text.toString()
-            val password = binding.tvLoginPass.text.toString()
-            if (username == "cc" && password == "1234") {
-                Log.d(TAG, "登入成功")
-                findNavController().navigate(R.id.action_signup_Fragment_to_navigation_home)
-
-            } else
-                Toast.makeText(context, "        帳號或密碼錯誤        ",
-                    Toast.LENGTH_SHORT).show()
-        }
-    }
-
-fun regist() {
-    binding.bRegis.setOnClickListener(Navigation.createNavigateOnClickListener
-        (R.id.action_navigation_notifications_to_signup_Fragment))//指定跳轉頁面
-    Log.d(TAG, "點擊註冊")
-
-}
-*/
