@@ -7,13 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.ccplay.ccchat.R
 import com.ccplay.ccchat.databinding.FragmentHomeBinding
 import com.ccplay.ccchat.databinding.RowChatroomBinding
 import com.google.gson.Gson
@@ -51,7 +48,7 @@ class HomeFragment : Fragment() {
             .readTimeout(3, TimeUnit.SECONDS)
             .build()
         val request = Request.Builder()
-            .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=Hank")
+            .url("wss://lott-dev.lottcube.asia/ws/chat/chat:app_test?nickname=cc")
             .build()
         websocket = client.newWebSocket(request, object : WebSocketListener() {
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -88,11 +85,11 @@ class HomeFragment : Fragment() {
         binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         adapter = ChatRoomAdapter()
         binding.recycler.adapter = adapter
-        thread {
+      /*  thread {
             val json = URL("https://api.jsonserve.com/hQAtNk").readText()
             val msg = Gson().fromJson(json, Message::class.java)
-            //Log.d(TAG, "msg : ${msg.body.text}");
-        }
+            //  Log.d(TAG, "msg : ${msg.body.text}");
+        }*/
         //test chatroom list
         thread {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
@@ -111,11 +108,7 @@ class HomeFragment : Fragment() {
     inner class ChatRoomAdapter : RecyclerView.Adapter<BindingViewHolder>() {
         //繼承
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
-            /* val view = layoutInflater.inflate(
-                R.layout.row_chatroom, parent, false)
-            return ChatRoomViewHolder(view)*/
             val binding = RowChatroomBinding.inflate(layoutInflater, parent, false)
-
             return BindingViewHolder(binding)
         }
 
@@ -127,6 +120,8 @@ class HomeFragment : Fragment() {
             val lightYear = rooms[position]
             holder.host.setText(lightYear.stream_title)
             holder.title.setText(lightYear.nickname)
+            Glide.with(this@HomeFragment).load(lightYear.head_photo) .into(holder.binding.headShot)
+            //holder.headshot.setT(lightYear.background_image)
         }
     }
 //            SecondFragment.this
@@ -144,7 +139,7 @@ class HomeFragment : Fragment() {
         RecyclerView.ViewHolder(binding.root) {
         val host = binding.tvChatroomHostTitle
         val title = binding.tvChatroomTitle
-        val headshot = binding.headShot
+       val headshot = binding.headShot
 
     }
 
