@@ -37,11 +37,11 @@ class Signup_Fragment : Fragment() {
                 requireContext(),
                 Getmember::class.java, "member_name"
             ).build()
-            val member =
-                com.ccplay.ccchat.ui.Profife.data.Member("$nickname", "$username", "$password")
-            Thread {
-                db.memberDao().insert(member)
-            }.start()
+          //  val member
+            com.ccplay.ccchat.ui.Profife.data.Member("$nickname", "$username", "$password")
+//            Thread {
+//                db.memberDao().insert(member)
+//            }.start()
             Log.d(TAG, "資料庫$db")
         }
 
