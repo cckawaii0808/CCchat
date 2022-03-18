@@ -35,7 +35,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Text changed
-        val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
+        val pref = requireContext().getSharedPreferences("userdata", Context.MODE_PRIVATE)
         val checked = pref.getBoolean("rem_username", false)
         binding.ckRemember.isChecked = checked
         binding.ckRemember.setOnCheckedChangeListener { compoundButton, checked ->
@@ -46,6 +46,8 @@ class ProfileFragment : Fragment() {
             }
         }
         val prefUser = pref.getString("USER", "")
+        val prefUsername = pref.getString("", "")
+
         if (prefUser != "") {
             binding.tvLoginName.setText(prefUser)
         }
@@ -53,7 +55,7 @@ class ProfileFragment : Fragment() {
             //Login stuff
             val username = binding.tvLoginName.text.toString()
             val password = binding.tvLoginPass.text.toString()
-            if (username == "cc" && password == "1234") {
+            if ("$username$password"=="$prefUsername") {
                 //save username to preferences
                 //   val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
                 if (remember) {
