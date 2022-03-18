@@ -47,7 +47,6 @@ class ProfileFragment : Fragment() {
         }
         val prefUser = pref.getString("USER", "")
         val prefUsername = pref.getString("", "")
-
         if (prefUser != "") {
             binding.tvLoginName.setText(prefUser)
         }
