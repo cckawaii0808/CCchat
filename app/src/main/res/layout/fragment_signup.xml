@@ -8,12 +8,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:background="#CEF4CCCC">
 
         <EditText
             android:id="@+id/tv_signup_username"
-            android:layout_width="324dp"
-            android:layout_height="74dp"
+            android:layout_width="326dp"
+            android:layout_height="64dp"
             android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="請輸入4-20位數字或字母"
@@ -25,10 +25,12 @@
 
         <Button
             android:id="@+id/b_send"
-            android:layout_width="329dp"
-            android:layout_height="77dp"
+            android:layout_width="331dp"
+            android:layout_height="48dp"
             android:layout_marginTop="24dp"
+            android:background="#83D0F2"
             android:text="送出"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.524"
             app:layout_constraintStart_toStartOf="parent"
@@ -49,8 +51,8 @@
 
         <EditText
             android:id="@+id/tv_signup_password"
-            android:layout_width="326dp"
-            android:layout_height="60dp"
+            android:layout_width="328dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
             android:ems="10"
             android:hint="請輸入4-20位數字或字母"
@@ -73,8 +75,8 @@
 
         <Button
             android:id="@+id/button"
-            android:layout_width="53dp"
-            android:layout_height="55dp"
+            android:layout_width="63dp"
+            android:layout_height="56dp"
             android:layout_marginStart="140dp"
             android:layout_marginTop="128dp"
             android:background="#00FFFFFF"

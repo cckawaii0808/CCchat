@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#61FBCECE">
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="177dp"
-        android:layout_height="196dp"
+        android:layout_width="189dp"
+        android:layout_height="249dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/pac" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/head_shot"
-        android:layout_width="149dp"
-        android:layout_height="171dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="166dp"
+        android:layout_height="237dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.607"
+        app:layout_constraintHorizontal_bias="0.695"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toTopOf="@+id/imageView3"
         app:srcCompat="@drawable/place_holder_500_700" />
@@ -30,40 +30,28 @@
         android:id="@+id/tv_chatroom_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:background="#ECC8C8"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:background="#7182BBD5"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
+        app:layout_constraintStart_toStartOf="@+id/head_shot"
         app:layout_constraintTop_toTopOf="@+id/head_shot" />
 
     <TextView
         android:id="@+id/tv_chatroom_host_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginBottom="8dp"
-        android:background="#ECC8C8"
+        android:layout_marginStart="52dp"
+        android:layout_marginBottom="12dp"
+        android:background="#4579A4F5"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#A167E7"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintBottom_toBottomOf="@+id/head_shot"
         app:layout_constraintStart_toStartOf="@+id/head_shot"
         tools:ignore="TextContrastCheck" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="179dp"
-        android:layout_height="201dp"
-        android:layout_marginStart="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/head_shot"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/a" />
 
     <!--<androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
