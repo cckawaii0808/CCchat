@@ -27,7 +27,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     val chatRooms = mutableListOf<Lightyear>()
-    lateinit var websocket: WebSocket//使用插件
+    //lateinit var websocket: WebSocket//使用插件
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

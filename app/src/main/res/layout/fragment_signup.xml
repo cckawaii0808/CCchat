@@ -85,6 +85,17 @@
             app:layout_constraintTop_toTopOf="@+id/image_head"
             tools:ignore="SpeakableTextPresentCheck" />
 
+        <Button
+            android:id="@+id/b_backtologin"
+            android:layout_width="53dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="?attr/actionModeCloseDrawable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

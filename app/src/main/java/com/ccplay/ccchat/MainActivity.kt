@@ -22,26 +22,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-    //    val appBarConfiguration = AppBarConfiguration(setOf(
-          //  R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
+        //    val appBarConfiguration = AppBarConfiguration(setOf(
+        //  R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
         //setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            android.R.id.home -> {
-                onBackPressed()
-
-
-
-
-                return true
-
-            }
-
+        return when (item.itemId) {
+            R.id.navigation_home -> true
+            R.id.navigation_search -> true
+            R.id.navigation_profile -> true
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 }

@@ -60,15 +60,8 @@ class ProfileFragment : Fragment() {
             //Login stuff
             val username = binding.tvLoginName.text.toString()
             val password = binding.tvLoginPass.text.toString()
-
-
             viewModel.getUsers().observe(viewLifecycleOwner) { user ->
-
             }
-
-
-
-
 
             if ("$username$password"=="$prefUsername") {
                 //save username to preferences
