@@ -1,6 +1,7 @@
 package com.ccplay.ccchat.ui.home
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,29 +20,44 @@ import com.bumptech.glide.request.RequestOptions
 import com.ccplay.ccchat.R
 import com.ccplay.ccchat.databinding.FragmentHomeBinding
 import com.ccplay.ccchat.databinding.RowChatroomBinding
+import com.ccplay.ccchat.ui.Profife.LoginViewModel
 import com.tom.atm.Lightyear
 import okhttp3.*
 
 class HomeFragment : Fragment() {
+    val loginViewModel by viewModels<LoginViewModel>()
     val viewModel by viewModels<HomeViewModel>()//繼承
     private lateinit var adapter: ChatRoomAdapter
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     val chatRooms = mutableListOf<Lightyear>()
+
     //lateinit var websocket: WebSocket//使用插件
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        /*val HomeViewModel=
-            ViewModelProvider(this).get(HomeViewModel::class.java)*/
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val pref = requireContext().getSharedPreferences("chat", Context.MODE_PRIVATE)
+        val preNickName = pref.getString("NICKNAME", "")
+        val prefDataUser = pref.getString("USERNAME", "")
+        val prefDataPass = pref.getString("PASSWORD", "")
+
+
+        loginViewModel.loginState(preNickName,prefDataUser,prefDataPass,userpass = null)
+        if (pref.getBoolean("login_state", true))
+            Log.d(TAG, "已經登入")
+        binding.tvTitleState.setText("歡迎使用者:$preNickName")
+
+
+
         /*  binding.buttonSecond.setOnClickListener {
               findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
           }*/
@@ -98,7 +115,7 @@ val request = Request.Builder()
         //繼承
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
             val binding = RowChatroomBinding.inflate(layoutInflater, parent, false)
-        //    binding.headShot.setOnClickListener( startActivity(intent))
+            //    binding.headShot.setOnClickListener( startActivity(intent))
             return BindingViewHolder(binding)
         }
 
@@ -110,7 +127,7 @@ val request = Request.Builder()
             val lightYear = chatRooms[position]
             holder.host.setText(lightYear.stream_title)
             holder.title.setText(lightYear.nickname)
-            holder.itemView.setOnClickListener{chatRoomsClicked(lightYear)}
+            holder.itemView.setOnClickListener { chatRoomsClicked(lightYear) }
             val option = RequestOptions()
                 .transform(CenterCrop(), RoundedCorners(30))//圓角30
             Glide.with(this@HomeFragment)
@@ -120,7 +137,7 @@ val request = Request.Builder()
         }
 
         private fun chatRoomsClicked(lightYear: Lightyear) {
-            Log.d(TAG,"東踏取蜜")
+            Log.d(TAG, "東踏取蜜")
             findNavController().navigate(R.id.action_navigation_home_to_chatRoomFragment)
 
         }

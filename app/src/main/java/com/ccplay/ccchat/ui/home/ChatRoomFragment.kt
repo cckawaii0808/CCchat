@@ -6,16 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ccplay.ccchat.MainActivity
 import com.ccplay.ccchat.R
 import com.ccplay.ccchat.databinding.FragmentChatRoomBinding
 import com.ccplay.ccchat.databinding.FragmentProfileBinding
+import com.ccplay.ccchat.ui.Profife.LoginViewModel
 import okhttp3.WebSocket
 
 
 class ChatRoomFragment : Fragment() {
+    val loginViewModel by viewModels<LoginViewModel>()
     private var _binding: FragmentChatRoomBinding? = null
     private val binding get() = _binding!!
     lateinit var websocket: WebSocket//使用插件

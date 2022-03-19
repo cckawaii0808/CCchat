@@ -57,6 +57,12 @@ class Signup_Fragment : Fragment() {
                 Toast.makeText(requireContext(), "$nickname ，註冊成功", Toast.LENGTH_LONG).show()
             } else {
                 Log.d(TAG, " 請重新輸入")
+                pref.edit()
+                    .putString("NICKNAME", "訪客")
+                    .putString("USERNAME", "")
+                    .putString("PASSWORD", "")
+                    .putBoolean("login_state", false)
+                    .apply()
                 Toast.makeText(requireContext(), "請輸入4-20位數字或字母", Toast.LENGTH_LONG).show()
             }
 
