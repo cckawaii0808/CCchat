@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Member(
+data class Member (
     @NonNull @ColumnInfo(name = "nick")
     var nickname: String,
     @NonNull @ColumnInfo(name = "name")

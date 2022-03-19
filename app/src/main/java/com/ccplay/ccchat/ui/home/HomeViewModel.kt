@@ -12,10 +12,6 @@ import com.tom.atm.Lightyear
 import java.net.URL
 
 class HomeViewModel : ViewModel() {
-    /*private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
-         }
-    val text: LiveData<String> = _text*/
     val chatRooms = MutableLiveData<List<Lightyear>>()
     fun getAllRooms() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -1,5 +1,6 @@
 package com.ccplay.ccchat
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -32,7 +33,12 @@ class MainActivity : AppCompatActivity() {
             // Respond to the action bar's Up/Home button
             android.R.id.home -> {
                 onBackPressed()
+
+
+
+
                 return true
+
             }
 
         }

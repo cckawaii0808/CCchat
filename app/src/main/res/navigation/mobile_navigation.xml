@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.ccplay.ccchat.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_chatRoomFragment"
+            app:destination="@id/chatRoomFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -35,4 +39,9 @@
             android:id="@+id/action_signup_Fragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
+    <fragment
+        android:id="@+id/chatRoomFragment"
+        android:name="com.ccplay.ccchat.ui.home.ChatRoomFragment"
+        android:label="fragment_chat_room"
+        tools:layout="@layout/fragment_chat_room" />
 </navigation>

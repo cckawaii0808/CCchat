@@ -10,14 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.ccplay.ccchat.R
 import com.ccplay.ccchat.databinding.FragmentProfileBinding
+import com.ccplay.ccchat.ui.home.HomeFragment
 
 class ProfileFragment : Fragment() {
     var remember = false
     private var login_state = 0
+    val viewModel by viewModels<ProfileViewModel>()
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -25,7 +29,7 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        val notificationsViewModel =
+        val profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -37,6 +41,7 @@ class ProfileFragment : Fragment() {
         //Text changed
         val pref = requireContext().getSharedPreferences("userdata", Context.MODE_PRIVATE)
         val checked = pref.getBoolean("rem_username", false)
+
         binding.ckRemember.isChecked = checked
         binding.ckRemember.setOnCheckedChangeListener { compoundButton, checked ->
             remember = checked
@@ -45,6 +50,7 @@ class ProfileFragment : Fragment() {
                 pref.edit().putString("USER", "").apply()
             }
         }
+
         val prefUser = pref.getString("USER", "")
         val prefUsername = pref.getString("", "")
         if (prefUser != "") {
@@ -54,6 +60,16 @@ class ProfileFragment : Fragment() {
             //Login stuff
             val username = binding.tvLoginName.text.toString()
             val password = binding.tvLoginPass.text.toString()
+
+
+            viewModel.getUsers().observe(viewLifecycleOwner) { user ->
+
+            }
+
+
+
+
+
             if ("$username$password"=="$prefUsername") {
                 //save username to preferences
                 //   val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
