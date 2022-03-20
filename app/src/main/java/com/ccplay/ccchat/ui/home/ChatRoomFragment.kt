@@ -40,8 +40,9 @@ class ChatRoomFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.bExitroom.setOnClickListener {
-
-            AlertDialog.Builder(requireContext())
+            val item = LayoutInflater.from(requireContext()).inflate(R.layout.breakheart, null)
+           androidx.appcompat.app.AlertDialog.Builder(requireContext())
+            AlertDialog.Builder(requireContext()) .setView(item)
                 .setTitle("確定要離開嗎")
                 .setMessage("不再想想嗎")
                 .setPositiveButton("狠心離開") { d, w ->
@@ -51,6 +52,9 @@ class ChatRoomFragment : Fragment() {
                     null
                 }.show()
 
+//            val item = LayoutInflater.from(this).inflate(R.layout.heart, null)
+//            androidx.appcompat.app.AlertDialog.Builder(this)
+//                .setView(item)
 
         }
         super.onViewCreated(view, savedInstanceState)
