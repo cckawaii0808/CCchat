@@ -34,7 +34,7 @@ class Signup_Fragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val pref = requireContext().getSharedPreferences("userdata", Context.MODE_PRIVATE)
         binding.bBacktologin.setOnClickListener {
-            findNavController().navigate(R.id.navigation_profile)
+            findNavController().navigate(R.id.action_signup_Fragment_to_navigation_profile)
 
         }
         binding.bSend.setOnClickListener {
@@ -48,7 +48,6 @@ class Signup_Fragment : Fragment() {
                     .putString("NICKNAME", nickname)
                     .putString("USERNAME", username)
                     .putString("PASSWORD", password)
-                    .putBoolean("login_state", true)
                     .apply()
                 binding.tvSignupNickname.setText("")
                 binding.tvSignupUsername.setText("")
@@ -65,8 +64,6 @@ class Signup_Fragment : Fragment() {
                     .apply()
                 Toast.makeText(requireContext(), "請輸入4-20位數字或字母", Toast.LENGTH_LONG).show()
             }
-
-
 /*   val db = Room.databaseBuilder(
       requireContext(),
       Getmember::class.java, "member_name"

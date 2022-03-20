@@ -8,11 +8,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ccplay.ccchat.R
 import com.ccplay.ccchat.databinding.FragmentProfileBinding
@@ -20,7 +22,6 @@ import com.ccplay.ccchat.ui.home.HomeFragment
 
 class ProfileFragment : Fragment() {
     var remember = false
-
     val viewModel by viewModels<ProfileViewModel>()
     val loginViewModel by viewModels<LoginViewModel>()
     private var _binding: FragmentProfileBinding? = null
@@ -33,8 +34,23 @@ class ProfileFragment : Fragment() {
         val profileViewModel =
             ViewModelProvider(this).get(ProfileViewModel::class.java)
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        check()
+
         val root: View = binding.root
         return root
+    }
+
+    private fun check() {
+        val pref = requireContext().getSharedPreferences("chat", Context.MODE_PRIVATE)
+        if (pref.getBoolean("login_state", true)) {
+            val nickname=pref.getString("NICKNAME","")
+            pref.edit().putString("NICKNAME",nickname).apply()
+            Log.d(TAG,"得到的暱稱為$nickname")
+            findNavController().navigate(R.id.memberInfoFragment)
+        }
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,16 +64,16 @@ class ProfileFragment : Fragment() {
             remember = checked
             pref.edit().putBoolean("rem_username", remember).apply()
             if (!checked) {
-                pref.edit().putString("USER", "").apply()
+                pref.edit().putString("USERNAME", "").apply()
             }
         }
         val UserName = pref.getString("USERNAME", "")
         val UserPass = pref.getString("PASSWORD", "")
-        val prefUser = pref.getString("USER", "")
-        val preLoginState = pref.getBoolean("login_state", false)
+        val nickname = pref.getString("NICKNAME", "")
 
-        if (prefUser != "") {
-            binding.tvLoginName.setText(prefUser)
+
+        if (UserName != "") {
+            binding.tvLoginName.setText(UserName)
         }
         binding.bLogin.setOnClickListener {
             //Login stuff
@@ -66,25 +82,33 @@ class ProfileFragment : Fragment() {
             //  viewModel.getUsers().observe(viewLifecycleOwner) { user ->
             //}
 
-            if(loginViewModel.loginState(UserName, username, UserPass, password)){
-                Log.d(TAG,"$UserName,$UserPass")
+            if (loginViewModel.loginState(UserName, username, UserPass, password)) {
+
+                Log.d(TAG, "$UserName,$UserPass")
+                Log.d(TAG,"登入暱稱$nickname")
+                pref.edit().putBoolean("login_state", true)
+                    .putString("NICKNAME", nickname).apply()
+
+
                 if (remember) {
                     pref.edit()
-                        .putString("USER", username)
+                        .putString("USERNAME", username)
                         .putInt("LEVEL", 3)
                         .apply() //.commit()
+
                 }
                 findNavController().navigate(R.id.navigation_home)
             } else {
+
                 // error
-                AlertDialog.Builder(requireContext())
-                    .setTitle("Login")
-                    .setMessage("Login Failed")
-                    .setPositiveButton("OK", null)
-                    .show()
+//                AlertDialog.Builder(requireContext())
+//                    .setTitle("Login")
+//                    .setMessage("Login Failed")
+//                    .setPositiveButton("OK", null)
+//                    .show()
+                Toast.makeText(requireContext(), "帳號或密碼錯誤", Toast.LENGTH_LONG).show()
+
             }
-
-
         }
         binding.bRegis.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_notifications_to_signup_Fragment)

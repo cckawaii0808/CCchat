@@ -1,7 +1,6 @@
 package com.ccplay.ccchat.ui.Profife
 
 import android.content.ContentValues.TAG
-import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.ViewModel
 
@@ -18,7 +17,6 @@ class LoginViewModel : ViewModel() {
         } else false
     }
 fun loginOrNot(state:Boolean,Nickname:String):String{
-
     return Nickname
 }
 

@@ -1,5 +1,6 @@
 package com.ccplay.ccchat.ui.home
 
+import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -24,8 +25,6 @@ class ChatRoomFragment : Fragment() {
     lateinit var websocket: WebSocket//使用插件
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
     }
 
     override fun onCreateView(
@@ -41,7 +40,18 @@ class ChatRoomFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.bExitroom.setOnClickListener {
-            findNavController().navigate(R.id.navigation_home)
+
+            AlertDialog.Builder(requireContext())
+                .setTitle("確定要離開嗎")
+                .setMessage("不再想想嗎")
+                .setPositiveButton("狠心離開") { d, w ->
+                    findNavController().navigate(R.id.navigation_home)
+                }
+                .setNegativeButton("留下") { d, w ->
+                    null
+                }.show()
+
+
         }
         super.onViewCreated(view, savedInstanceState)
         var videoview = binding.videoView
