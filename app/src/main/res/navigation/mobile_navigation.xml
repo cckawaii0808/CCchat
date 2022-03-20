@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_memberInfoFragment"
+            app:destination="@id/memberInfoFragment" />
     </fragment>
 
     <fragment
@@ -44,4 +47,13 @@
         android:name="com.ccplay.ccchat.ui.home.ChatRoomFragment"
         android:label="fragment_chat_room"
         tools:layout="@layout/fragment_chat_room" />
+    <fragment
+        android:id="@+id/memberInfoFragment"
+        android:name="com.ccplay.ccchat.ui.Profife.MemberInfoFragment"
+        android:label="fragment_member_info"
+        tools:layout="@layout/fragment_member_info" >
+        <action
+            android:id="@+id/action_memberInfoFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 </navigation>

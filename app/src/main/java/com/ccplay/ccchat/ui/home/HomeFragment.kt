@@ -50,11 +50,14 @@ class HomeFragment : Fragment() {
         val prefDataUser = pref.getString("USERNAME", "")
         val prefDataPass = pref.getString("PASSWORD", "")
 
-
-        loginViewModel.loginState(preNickName,prefDataUser,prefDataPass,userpass = null)
-        if (pref.getBoolean("login_state", true))
+        if (pref.getBoolean("login_state", true)) {
             Log.d(TAG, "已經登入")
-        binding.tvTitleState.setText("歡迎使用者:$preNickName")
+            binding.tvTitleState.setText("歡迎使用者:$preNickName")
+        }else{
+            Log.d(TAG, "尚未登入")
+            binding.tvTitleState.setText("歡迎使用者:訪客")
+
+        }
 
 
 

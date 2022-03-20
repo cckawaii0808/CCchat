@@ -20,8 +20,9 @@ import com.ccplay.ccchat.ui.home.HomeFragment
 
 class ProfileFragment : Fragment() {
     var remember = false
-    private var login_state = 0
+
     val viewModel by viewModels<ProfileViewModel>()
+    val loginViewModel by viewModels<LoginViewModel>()
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -39,7 +40,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //Text changed
-        val pref = requireContext().getSharedPreferences("userdata", Context.MODE_PRIVATE)
+        val pref = requireContext().getSharedPreferences("chat", Context.MODE_PRIVATE)
         val checked = pref.getBoolean("rem_username", false)
 
         binding.ckRemember.isChecked = checked
@@ -50,9 +51,11 @@ class ProfileFragment : Fragment() {
                 pref.edit().putString("USER", "").apply()
             }
         }
-
+        val UserName = pref.getString("USERNAME", "")
+        val UserPass = pref.getString("PASSWORD", "")
         val prefUser = pref.getString("USER", "")
-        val prefUsername = pref.getString("", "")
+        val preLoginState = pref.getBoolean("login_state", false)
+
         if (prefUser != "") {
             binding.tvLoginName.setText(prefUser)
         }
@@ -60,12 +63,11 @@ class ProfileFragment : Fragment() {
             //Login stuff
             val username = binding.tvLoginName.text.toString()
             val password = binding.tvLoginPass.text.toString()
-            viewModel.getUsers().observe(viewLifecycleOwner) { user ->
-            }
+            //  viewModel.getUsers().observe(viewLifecycleOwner) { user ->
+            //}
 
-            if ("$username$password"=="$prefUsername") {
-                //save username to preferences
-                //   val pref = requireContext().getSharedPreferences("atm", Context.MODE_PRIVATE)
+            if(loginViewModel.loginState(UserName, username, UserPass, password)){
+                Log.d(TAG,"$UserName,$UserPass")
                 if (remember) {
                     pref.edit()
                         .putString("USER", username)
@@ -81,6 +83,8 @@ class ProfileFragment : Fragment() {
                     .setPositiveButton("OK", null)
                     .show()
             }
+
+
         }
         binding.bRegis.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_notifications_to_signup_Fragment)
@@ -88,9 +92,11 @@ class ProfileFragment : Fragment() {
         }
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
 
