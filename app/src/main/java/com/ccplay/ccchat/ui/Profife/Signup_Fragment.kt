@@ -57,7 +57,7 @@ class Signup_Fragment : Fragment() {
             } else {
                 Log.d(TAG, " 請重新輸入")
                 pref.edit()
-                    .putString("NICKNAME", "訪客")
+                    .putString("NICKNAME", "")
                     .putString("USERNAME", "")
                     .putString("PASSWORD", "")
                     .putBoolean("login_state", false)
