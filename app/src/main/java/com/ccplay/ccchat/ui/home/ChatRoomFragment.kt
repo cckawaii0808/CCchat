@@ -135,6 +135,8 @@ class ChatRoomFragment : Fragment() {
         binding.ccchatres.adapter = adapter
         chatRoomViewModel.chats.observe(viewLifecycleOwner) { Mymessage ->
             adapter.submitRooms(Mymessage)
+            Log.d(TAG,"我是mymessag$Mymessage 哈")
+
         }
 
 
@@ -153,6 +155,7 @@ class ChatRoomFragment : Fragment() {
 
         override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
             val msg = chat[position]
+            Log.d(TAG,"這是ＭＳＧ$msg 哈")
             holder.text.setText(msg.body.text)
             //  holder.title.setText(MSG.nickname)
 
@@ -161,7 +164,9 @@ class ChatRoomFragment : Fragment() {
         fun submitRooms(mymessage: List<MyMessage>) {
             chat.clear()
             chat.addAll(mymessage)//空包包添加數值，數值是我收到以解析的
-            notifyDataSetChanged()
+            adapter.notifyDataSetChanged()
+            Log.d(TAG,"我有東西ㄇ$chat 哈")
+            Log.d(TAG,"我是AD $adapter 哈")
         }
 
 
