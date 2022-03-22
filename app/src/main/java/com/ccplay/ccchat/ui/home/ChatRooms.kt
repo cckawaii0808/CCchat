@@ -54,7 +54,7 @@ data class Stream(
     val tags: String
 )
 
-data class Message(
+data class MyMessage(
     val body: Body,
     val event: String,
     val room_id: String,

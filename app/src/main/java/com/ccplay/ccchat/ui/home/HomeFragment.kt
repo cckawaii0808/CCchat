@@ -110,8 +110,6 @@ val request = Request.Builder()
             adapter.submitRooms(rooms)
         }
         viewModel.getAllRooms()
-
-
     }
 
     inner class ChatRoomAdapter : RecyclerView.Adapter<BindingViewHolder>() {
@@ -163,8 +161,6 @@ val request = Request.Builder()
         val host = binding.tvChatroomHostTitle
         val title = binding.tvChatroomTitle
         val headshot = binding.headShot
-
-
     }
 
     override fun onDestroyView() {

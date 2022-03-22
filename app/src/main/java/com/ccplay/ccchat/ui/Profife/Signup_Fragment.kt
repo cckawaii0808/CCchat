@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
@@ -20,15 +21,19 @@ import java.lang.reflect.Member
 
 class Signup_Fragment : Fragment() {
     val signUpViewModel by viewModels<SignUpViewModel>()
+
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
+
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,6 +81,14 @@ class Signup_Fragment : Fragment() {
     Log.d(TAG, "資料庫$db")
     */
 
+        }
+        binding.button.setOnClickListener {
+
+            val selectphoto =registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+                uri?.let { binding.imageHead.setImageURI(it) }
+
+
+            }
         }
 
 
