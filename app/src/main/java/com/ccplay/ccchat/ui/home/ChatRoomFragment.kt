@@ -85,10 +85,10 @@ class ChatRoomFragment : Fragment() {
             override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
                 val json = text
-
                 chatRoomViewModel.getMessage(json)
-
                 Log.d(TAG, ": onMessage $text");
+
+
 
             }
 
@@ -138,8 +138,6 @@ class ChatRoomFragment : Fragment() {
             Log.d(TAG,"我是mymessag$Mymessage 哈")
 
         }
-
-
     }
 
     inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomAdapter.BindingViewHolder>() {

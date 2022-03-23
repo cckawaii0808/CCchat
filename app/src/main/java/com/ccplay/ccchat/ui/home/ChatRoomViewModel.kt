@@ -16,7 +16,7 @@ class ChatRoomViewModel : ViewModel() {
         val response = Gson().fromJson(json, MyMessage::class.java)
         getchat.add(response)
         chats.postValue(getchat)
-        Log.d(TAG,"我是getchat $getchat 哈")
+        Log.d(TAG, "我是getchat $getchat 哈")
 
     }
 }
