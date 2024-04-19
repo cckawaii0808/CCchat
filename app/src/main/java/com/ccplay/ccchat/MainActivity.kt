@@ -1,5 +1,6 @@
 package com.ccplay.ccchat
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,10 +17,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val pref = getSharedPreferences("chat", Context.MODE_PRIVATE)
+        pref.edit().putBoolean("login_state",false)
+            .apply()
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         //    val appBarConfiguration = AppBarConfiguration(setOf(

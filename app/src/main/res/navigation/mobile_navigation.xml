@@ -13,13 +13,16 @@
         <action
             android:id="@+id/action_navigation_home_to_chatRoomFragment"
             app:destination="@id/chatRoomFragment" />
+        <action
+            android:id="@+id/action_navigation_home_to_memberInfoFragment"
+            app:destination="@id/memberInfoFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.ccplay.ccchat.ui.dashboard.DashboardFragment"
+        android:name="com.ccplay.ccchat.ui.dashboard.SearchFragment"
 
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -38,10 +41,22 @@
         <action
             android:id="@+id/action_signup_Fragment_to_navigation_home"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_signup_Fragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
     </fragment>
     <fragment
         android:id="@+id/chatRoomFragment"
         android:name="com.ccplay.ccchat.ui.home.ChatRoomFragment"
         android:label="fragment_chat_room"
         tools:layout="@layout/fragment_chat_room" />
+    <fragment
+        android:id="@+id/memberInfoFragment"
+        android:name="com.ccplay.ccchat.ui.Profife.MemberInfoFragment"
+        android:label="fragment_member_info"
+        tools:layout="@layout/fragment_member_info" >
+        <action
+            android:id="@+id/action_memberInfoFragment_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 </navigation>

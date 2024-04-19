@@ -13,6 +13,7 @@
         android:layout_height="52dp"
         android:layout_marginTop="20dp"
         android:ems="10"
+        android:hint="請輸入密碼"
         android:inputType="textPassword"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,13 +27,14 @@
         android:layout_height="69dp"
         android:layout_marginTop="224dp"
         android:ems="10"
+        android:hint="請輸入帳號"
         android:inputType="textPersonName"
         android:minHeight="48dp"
-        android:text="Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
         android:id="@+id/b_login"
@@ -57,15 +59,6 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/b_login" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="152dp"
-        android:layout_height="133dp"
-        android:text="登入頁面"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <CheckBox
         android:id="@+id/ck_remember"

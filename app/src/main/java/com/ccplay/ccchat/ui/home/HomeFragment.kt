@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,12 +19,9 @@ import com.bumptech.glide.request.RequestOptions
 import com.ccplay.ccchat.R
 import com.ccplay.ccchat.databinding.FragmentHomeBinding
 import com.ccplay.ccchat.databinding.RowChatroomBinding
-import com.ccplay.ccchat.ui.Profife.LoginViewModel
 import com.tom.atm.Lightyear
-import okhttp3.*
 
 class HomeFragment : Fragment() {
-    val loginViewModel by viewModels<LoginViewModel>()
     val viewModel by viewModels<HomeViewModel>()//繼承
     private lateinit var adapter: ChatRoomAdapter
     private var _binding: FragmentHomeBinding? = null
@@ -50,11 +46,14 @@ class HomeFragment : Fragment() {
         val prefDataUser = pref.getString("USERNAME", "")
         val prefDataPass = pref.getString("PASSWORD", "")
 
-
-        loginViewModel.loginState(preNickName,prefDataUser,prefDataPass,userpass = null)
-        if (pref.getBoolean("login_state", true))
+        if (pref.getBoolean("login_state", true)) {
             Log.d(TAG, "已經登入")
-        binding.tvTitleState.setText("歡迎使用者:$preNickName")
+            binding.tvTitleState.setText("歡迎使用者:$preNickName")
+        }else{
+            Log.d(TAG, "尚未登入")
+            binding.tvTitleState.setText("歡迎使用者:訪客")
+
+        }
 
 
 
@@ -107,8 +106,6 @@ val request = Request.Builder()
             adapter.submitRooms(rooms)
         }
         viewModel.getAllRooms()
-
-
     }
 
     inner class ChatRoomAdapter : RecyclerView.Adapter<BindingViewHolder>() {
@@ -148,20 +145,12 @@ val request = Request.Builder()
             notifyDataSetChanged()
         }
     }
-    /*   holder.itemView.setOnClickListener {
-           chatRoomClicked(lightYear)
-   }
-   private fun chatRoomClicked(lightYear: Lightyear) {
-   }
-   */
 
     inner class BindingViewHolder(val binding: RowChatroomBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val host = binding.tvChatroomHostTitle
         val title = binding.tvChatroomTitle
         val headshot = binding.headShot
-
-
     }
 
     override fun onDestroyView() {

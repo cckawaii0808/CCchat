@@ -1,4 +1,5 @@
 package com.tom.atm
+data class MessageSend(val action:String, val content: String)
 
 data class ChatRooms(
     val error_code: String,
@@ -53,7 +54,7 @@ data class Stream(
     val tags: String
 )
 
-data class Message(
+data class MyMessage(
     val body: Body,
     val event: String,
     val room_id: String,

@@ -20,6 +20,4 @@ class HomeViewModel : ViewModel() {
             chatRooms.postValue(response.result.lightyear_list)
         }
     }
-
-
 }

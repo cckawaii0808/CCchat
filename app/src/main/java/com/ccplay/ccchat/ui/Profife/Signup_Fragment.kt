@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.room.Room
@@ -20,21 +21,25 @@ import java.lang.reflect.Member
 
 class Signup_Fragment : Fragment() {
     val signUpViewModel by viewModels<SignUpViewModel>()
+
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
+
         return binding.root
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val pref = requireContext().getSharedPreferences("userdata", Context.MODE_PRIVATE)
         binding.bBacktologin.setOnClickListener {
-            findNavController().navigate(R.id.navigation_profile)
+            findNavController().navigate(R.id.action_signup_Fragment_to_navigation_profile)
 
         }
         binding.bSend.setOnClickListener {
@@ -48,7 +53,6 @@ class Signup_Fragment : Fragment() {
                     .putString("NICKNAME", nickname)
                     .putString("USERNAME", username)
                     .putString("PASSWORD", password)
-                    .putBoolean("login_state", true)
                     .apply()
                 binding.tvSignupNickname.setText("")
                 binding.tvSignupUsername.setText("")
@@ -58,15 +62,13 @@ class Signup_Fragment : Fragment() {
             } else {
                 Log.d(TAG, " 請重新輸入")
                 pref.edit()
-                    .putString("NICKNAME", "訪客")
+                    .putString("NICKNAME", "")
                     .putString("USERNAME", "")
                     .putString("PASSWORD", "")
                     .putBoolean("login_state", false)
                     .apply()
                 Toast.makeText(requireContext(), "請輸入4-20位數字或字母", Toast.LENGTH_LONG).show()
             }
-
-
 /*   val db = Room.databaseBuilder(
       requireContext(),
       Getmember::class.java, "member_name"
@@ -79,6 +81,14 @@ class Signup_Fragment : Fragment() {
     Log.d(TAG, "資料庫$db")
     */
 
+        }
+        binding.button.setOnClickListener {
+
+            val selectphoto =registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+                uri?.let { binding.imageHead.setImageURI(it) }
+
+
+            }
         }
 
 
